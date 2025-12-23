@@ -1,6 +1,7 @@
 # Python
 *.pyc
 __pycache__/
+backend/__pycache__/
 *.pyo
 *.pyd
 *.sqlite3

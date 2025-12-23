@@ -11,7 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///worklog.sqlite3'
 app.config['SECRET_KEY'] = 'Ati03G6psY'
 
 db.init_app(app)
-app.app_context().push()
+
+with app.app_context():
+    db.create_all() 
 
 register_blueprints(app)
 

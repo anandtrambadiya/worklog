@@ -1,20 +1,24 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import AdminDashboard from "./pages/AdminDashboard";
-import EmployeeDashboard from "./pages/EmployeeDashboard";
+import { useState } from "react";
+import AddEmployee from "./components/AddEmployee";
+import EmployeeList from "./components/EmployeeList";
+import AddTimeEntry from "./components/AddTimeEntry";
+import Summary from "./components/Summary";
 
-function App() {
+export default function App() {
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
-      </Routes>
-    </Router>
+    <>
+      <h1>WorkLog Dashboard</h1>
+
+      <AddEmployee onAdded={() => setRefresh(!refresh)} />
+
+      <EmployeeList onSelect={setSelectedEmployee} key={refresh} />
+
+      <AddTimeEntry employee={selectedEmployee} />
+
+      <Summary employee={selectedEmployee} />
+    </>
   );
 }
-
-export default App;

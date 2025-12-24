@@ -1,24 +1,31 @@
 import { useState } from "react";
-import AddEmployee from "./components/AddEmployee";
 import EmployeeList from "./components/EmployeeList";
-import AddTimeEntry from "./components/AddTimeEntry";
-import Summary from "./components/Summary";
 
-export default function App() {
+function App() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [refresh, setRefresh] = useState(false);
 
   return (
-    <>
-      <h1>WorkLog Dashboard</h1>
+    <div style={{ padding: "20px" }}>
+      <h1>Worklog Dashboard</h1>
 
-      <AddEmployee onAdded={() => setRefresh(!refresh)} />
+      {!selectedEmployee && (
+        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+      )}
 
-      <EmployeeList onSelect={setSelectedEmployee} key={refresh} />
+      {selectedEmployee && (
+        <div>
+          <button onClick={() => setSelectedEmployee(null)}>
+            ← Back
+          </button>
 
-      <AddTimeEntry employee={selectedEmployee} />
+          <h2>{selectedEmployee.name}</h2>
+          <p>{selectedEmployee.email}</p>
 
-      <Summary employee={selectedEmployee} />
-    </>
+          <p>Employee detail view (next step)</p>
+        </div>
+      )}
+    </div>
   );
 }
+
+export default App;

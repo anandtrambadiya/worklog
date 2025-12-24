@@ -15,18 +15,19 @@ function AddTimeEntryModal({ onClose, onSuccess }) {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!employeeId || !date || !hours) {
-      setError("All fields except description are required");
-      return;
-    }
+  if (!employeeId || !date || !hours) {
+    setError("All fields except description are required");
+    return;
+  }
 
-    if (hours < 0 || hours > 24) {
-      setError("Hours must be between 0 and 24");
-      return;
-    }
+  if (hours < 0 || hours > 24) {
+    setError("Hours must be between 0 and 24");
+    return;
+  }
 
+  try {
     const res = await fetch("http://localhost:5000/time-entries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,9 +46,15 @@ function AddTimeEntryModal({ onClose, onSuccess }) {
       return;
     }
 
-    onSuccess();
+    // ✅ Use the actual returned data and trigger refresh
+    onSuccess(); // refresh TimeEntryList AFTER backend returns the saved entry
     onClose();
-  };
+  } catch (err) {
+    setError("Network error");
+    console.error(err);
+  }
+};
+
 
   return (
     <div style={overlayStyle}>

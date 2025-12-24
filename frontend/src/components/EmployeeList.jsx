@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function EmployeeList({ onSelectEmployee }) {
+function EmployeeList({ onSelectEmployee, refresh }) {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ function EmployeeList({ onSelectEmployee }) {
         console.error(err);
         setLoading(false);
       });
-  }, []);
+  }, [refresh]);
 
   if (loading) return <p>Loading employees...</p>;
 
